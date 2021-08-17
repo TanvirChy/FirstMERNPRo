@@ -43,6 +43,11 @@ export default function TopBar() {
               WRITE
             </Link>
           </li>
+          <li className="topListItem">
+            <Link className="link" to="/join">
+              JOIN
+            </Link>
+          </li>
           <li className="topListItem" onClick={handleLogout}>
             {user && "LOGOUT"}
           </li>
@@ -68,7 +73,7 @@ export default function TopBar() {
           </ul>
         )}
 
-        <i className="topSearchIcon fas fa-search"></i>
+        
       </div>
     </div>
   );

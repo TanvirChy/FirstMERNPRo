@@ -8,6 +8,8 @@ import Register from "./pages/register/Register";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "./context/Context";
+import Chat from "./chatsection/Chat";
+import Join from "./chatsection/Join";
 
 function App() {
   const { user } = useContext(Context);
@@ -25,6 +27,8 @@ function App() {
         <Route path="/post/:postId">
           <Single />
         </Route>
+        <Route path='/join'> <Join/> </Route>
+        <Route path='/chat' > <Chat/> </Route>
       </Switch>
     </Router>
   );

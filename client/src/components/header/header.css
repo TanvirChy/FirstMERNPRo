@@ -1,5 +1,5 @@
 .header{
-    margin-top: 60px;
+    margin-top: 5px;
 
 }
 .headerTitles{
@@ -18,7 +18,7 @@
     position: absolute;
     top: 20%;
     font-size: 100px;
-    color: indigo;
+    color: rgb(187, 147, 216);
 }
 
 .headerImg{

@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 import "./singlePost.css";
+import axios from "axios";
 import { Context } from "../../context/Context";
 
 export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
-  const PF = "http://locahost:5000/images/";
+  const PF = "http://localhost:5000/images/";
   const { user } = useContext(Context);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -18,15 +18,15 @@ export default function SinglePost() {
     const getPost = async () => {
       const res = await axios.get("/posts/" + path);
       setPost(res.data);
-      setTitle(res.data.title)
-      setDesc(res.data.desc)
+      setTitle(res.data.title);
+      setDesc(res.data.desc);
     };
     getPost();
   }, [path]);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${path}`, {
+      await axios.delete(`/posts/${post._id}`, {
         data: { username: user.username },
       });
       window.location.replace("/");
@@ -34,15 +34,13 @@ export default function SinglePost() {
   };
 
   const handleUpdate = async () => {
-try{
-await axios.put(`/posts/${post._id}`,{
-   username: user.username,title,desc 
-});
-setUpdateMode(false)
-}catch(err){
-
-}
-  }
+    try {
+      await axios.put(`/posts/${post._id}`, {
+         username: user.username, title, desc 
+      });
+      setUpdateMode(false)
+    } catch (err) {}
+  };
 
   return (
     <div className="singlePost">
@@ -50,14 +48,14 @@ setUpdateMode(false)
         {post.photo && (
           <img src={PF + post.photo} alt="" className="singlePostImg" />
         )}
+
         {updateMode ? (
           <input
             type="text"
             value={title}
-            
             className="singlePostTitleInput"
             autoFocus
-            onChange={(e)=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         ) : (
           <h1 className="singlePostTitle">
@@ -78,24 +76,31 @@ setUpdateMode(false)
         )}
 
         <div className="singlePostInfo">
-          <span className="singlePostAuthor">
+          <span>
+            Auhor:
             <Link to={`/?user=${post.username}`} className="link">
-              Author: <b>{post.username}</b>
+              <b>{post.username}</b>
             </Link>
           </span>
           <span className="singlePostDate">
-            {new Date(post.createdAt).toDateString}
+            {new Date(post.createdAt).toDateString()}{" "}
           </span>
         </div>
         {updateMode ? (
-          <textarea className='singlePostDescInput' value={desc} onChange={(e)=> setDesc(e.target.value)} />
+          <textarea
+            value={desc}
+            className="singlePostDescInput"
+            onChange={(e) => setDesc(e.target.value)}
+          />
         ) : (
           <p className="singlePostDesc">{desc}</p>
         )}
-        { updateMode && (
- <button className="singlePostButton" onClick={handleUpdate}>Update</button>
-        ) }
-       
+        {updateMode && (
+          <button className="singlePostButton" onClick={handleUpdate}>
+          Update
+        </button>
+        )}
+        
       </div>
     </div>
   );
